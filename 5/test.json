@@ -1,0 +1,17 @@
+{
+    "id": null,
+    "name":"Volodya",
+    "coordinates": {
+      "x": 4,
+      "y": 5
+    },
+    "creationDate": null,
+    "minimalPoint": 6,
+    "difficulty": "HARD",
+    "author":  {
+      "name": "Volodya",
+      "height": 7,
+      "weight": 8,
+      "passportID":9
+    }
+}

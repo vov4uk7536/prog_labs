@@ -1,25 +1,33 @@
-import java.util.HashMap;
-import java.util.Scanner;
+import java.util.*;
 import java.io.*;
+import com.google.gson.*;
 
 public class main {
-  public static void main(String args[]) throws IOException
+  public static void main(String[] args) throws IOException
   {
+    char [] a = new char[4];
+    String command = "";
+    int key;
+    int id;
+    String difficulty = null;
+    String author = null;
+    String element = null;
     String file_name = args[0];
 
     Scanner input = new Scanner(System.in);
-    FileReader file = new FileReader(file_name); //file.read(a) - пример чтения из файла в масив a
 
-    char [] a = new char[4];
-    String command = "";
+    FileReader reader = new FileReader(file_name);
+    Gson gson = new Gson();
+    LabWork laba = gson.fromJson(reader, LabWork.class); //gson.fromJson(reader, LabWork.class); - чтение
+    reader.close();
+    //System.out.println(laba);
 
-    file.read(a);
-    /*
-    for(char c : a)
-      System.out.print(c);   // Вывод символов один за другими
-    */
-    file.close();
+    FileWriter writer = new FileWriter(file_name); //writer.write(json); - запись
+    writer.write(gson.toJson(laba));
+    writer.close();
 
+    HashMap<String, LabWork> collection = new HashMap<String, LabWork>();
+    //collection.put("0","zero") - добавление эелемента
 
     while (!command.equals("exit")) {
 
@@ -31,7 +39,7 @@ public class main {
 
         case "info":{
 
-          break; // вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)
+          break; //вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)
         }
 
         case "show":{
@@ -40,16 +48,21 @@ public class main {
         }
 
         case "insert":{
+          key = input.nextInt();
+          element = input.next();
 
           break; //insert key {element}   добавить новый элемент с заданным ключом
         }
 
         case "update":{
+          id = input.nextInt();
+          element = input.next();
 
           break; //update id {element}   обновить значение элемента коллекции, id которого равен заданному
         }
 
         case "remove_key":{
+          key = input.nextInt();
 
           break; //remove_key key   удалить элемент из коллекции по его ключу
         }
@@ -65,31 +78,36 @@ public class main {
         }
 
         case "execute_script":{
+          file_name = input.next();
 
           break; //execute_script file_name   считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.
         }
 
-        case "exit":{
+        /*case "exit":{
 
           break; //завершить программу (без сохранения в файл)
-        }
+        }*/
 
         case "remove_lower":{
+          element = input.next();
 
           break; //remove_lower {element}   удалить из коллекции все элементы, меньшие, чем заданный
         }
 
         case "replace_if_greater":{
+          key = input.nextInt();
 
           break; //replace_if_greater key {element}   заменить значение по ключу, если новое значение больше старого
         }
 
         case "remove_lower_key":{
+          key = input.nextInt();
 
-          break; //удалить из коллекции все элементы, ключ которых меньше, чем заданный
+          break; //remove_lower_key key   удалить из коллекции все элементы, ключ которых меньше, чем заданный
         }
 
         case "remove_all_by_difficulty":{
+          difficulty = input.next();
 
           break; //remove_all_by_difficulty difficulty   удалить из коллекции все элементы, значение поля difficulty которого эквивалентно заданному
         }
@@ -100,6 +118,7 @@ public class main {
         }
 
         case "print_field_ascending_author":{
+          author = input.next();
 
           break; //print_field_ascending_author author   вывести значения поля author в порядке возрастания
         }
