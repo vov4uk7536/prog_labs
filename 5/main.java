@@ -1,33 +1,51 @@
+/*ШО НАДО СДЕЛАТЬ!!!!!!!!!!!!!!!!
+1)чтение и добавление нескольких лаб в коллекцию СДЕЛЯЛь
+2)сортировка коллекции
+3)запись в файл через java.io.FileOutputStream, а не через FileWriter
+4)задокумментировать все классы в javadoc
+5) Программа должна корректно работать с неправильными данными (ошибки пользовательского ввода, отсутсвие прав доступа к файлу и т.п.).
+
+*/
 import java.util.*;
 import java.io.*;
 import com.google.gson.*;
+import com.google.gson.stream.*;
 
 public class main {
   public static void main(String[] args) throws IOException
   {
-    char [] a = new char[4];
-    String command = "";
     int key;
     int id;
+    int id_count = 0;
     String difficulty = null;
     String author = null;
     String element = null;
     String file_name = args[0];
+    String file = "";
+    String command = "";
+    String str = null;
+    char[] Char = new char[1];
 
     Scanner input = new Scanner(System.in);
-
-    FileReader reader = new FileReader(file_name);
+    HashMap<Integer, LabWork> collection = new HashMap<Integer, LabWork>();
     Gson gson = new Gson();
-    LabWork laba = gson.fromJson(reader, LabWork.class); //gson.fromJson(reader, LabWork.class); - чтение
-    reader.close();
-    //System.out.println(laba);
+    JsonReader reader = new JsonReader(new BufferedReader(new FileReader(file_name)));
+    JsonParser jsonParser = new JsonParser();
+    JsonArray labs = jsonParser.parse(reader).getAsJsonArray();
 
-    FileWriter writer = new FileWriter(file_name); //writer.write(json); - запись
-    writer.write(gson.toJson(laba));
-    writer.close();
+    for (JsonElement aLaba : labs){
+      LabWork laba = gson.fromJson(aLaba, LabWork.class);
+      collection.put(id_count,laba);
+      collection.get(id_count).setId(id_count);
+      id_count++;
+    }
 
-    HashMap<String, LabWork> collection = new HashMap<String, LabWork>();
-    //collection.put("0","zero") - добавление эелемента
+    //FileWriter writer = new FileWriter(file_name); //writer.write(json); - запись
+   // writer.write(gson.toJson(labs[0]));
+   // writer.close();
+
+    System.out.println(collection.get(0));
+    System.out.println(collection.get(1));
 
     while (!command.equals("exit")) {
 
@@ -43,7 +61,7 @@ public class main {
         }
 
         case "show":{
-
+          System.out.println(collection.get(0));
           break; //вывести в стандартный поток вывода все элементы коллекции в строковом представлении
         }
 
@@ -68,7 +86,7 @@ public class main {
         }
 
         case "clear":{
-
+          collection.clear();
           break; //очистить коллекцию
         }
 

@@ -1,6 +1,7 @@
-{
-    "id": null,
-    "name":"Volodya",
+[
+  {
+    "id": 0,
+    "name": "Volodya",
     "coordinates": {
       "x": 4,
       "y": 5
@@ -12,6 +13,24 @@
       "name": "Volodya",
       "height": 7,
       "weight": 8,
-      "passportID":9
+      "passportID": 9
     }
-}
+  },
+  {
+    "id": 1,
+    "name": "Egorka",
+    "coordinates": {
+      "x": 1,
+      "y": 1
+    },
+    "creationDate": null,
+    "minimalPoint": 6,
+    "difficulty": "EASY",
+    "author":  {
+      "name": "Egorka",
+      "height": 6,
+      "weight": 5,
+      "passportID": 4
+    }
+  }
+]
