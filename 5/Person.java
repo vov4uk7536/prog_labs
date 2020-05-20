@@ -1,6 +1,6 @@
 public class Person {
     private String name; //Поле не может быть null, Строка не может быть пустой
-    private long height; //Поле не может быть null, Значение поля должно быть больше 0
+    private Long height; //Поле не может быть null, Значение поля должно быть больше 0
     private Integer weight; //Поле не может быть null, Значение поля должно быть больше 0
     private String passportID; //Строка не может быть пустой, Поле не может быть null
 
@@ -17,7 +17,7 @@ public class Person {
         return name;
     }
 
-    public long getHeight() {
+    public Long getHeight() {
         return height;
     }
 

@@ -1,6 +1,6 @@
 public class Coordinates {
-    private double x; //Значение поля должно быть больше -628
-    private long y; //Поле не может быть null
+    private Double x; //Значение поля должно быть больше -628
+    private Long y; //Поле не может быть null
 
     public String toString() {
         return "Coordinates{" +
@@ -9,7 +9,7 @@ public class Coordinates {
                 '}';
     }
 
-    public double getX() {
+    public Double getX() {
         return x;
     }
 
@@ -17,7 +17,7 @@ public class Coordinates {
         this.x = x;
     }
 
-    public long getY() {
+    public Long getY() {
         return y;
     }
 

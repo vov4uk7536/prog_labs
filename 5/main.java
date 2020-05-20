@@ -4,30 +4,31 @@
 3)запись в файл через java.io.FileOutputStream, а не через FileWriter
 4)задокумментировать все классы в javadoc
 5) Программа должна корректно работать с неправильными данными (ошибки пользовательского ввода, отсутсвие прав доступа к файлу и т.п.).
-
+//insert 3 {"id"=1, "name"='Egorka', "coordinates":{"x"=1.0, "y"=1}, "creationDate"=null, "minimalPoint"=6.0, "difficulty"=null, "author":{"name"='Egorka', "height"=6, "weight"=5, "passportID"='4'}}
 */
 import java.util.*;
 import java.io.*;
 import com.google.gson.*;
 import com.google.gson.stream.*;
+import java.time.LocalDate;
 
 public class main {
   public static void main(String[] args) throws IOException
   {
-    int key;
-    int id;
-    int id_count = 0;
+    Long key;
+    Long id;
     String difficulty = null;
     String author = null;
-    String element = null;
+    String element = "";
     String file_name = args[0];
     String file = "";
     String command = "";
     String str = null;
-    char[] Char = new char[1];
+
+    java.time.LocalDate Date_of_initialization = LocalDate.now();
 
     Scanner input = new Scanner(System.in);
-    HashMap<Integer, LabWork> collection = new HashMap<Integer, LabWork>();
+    HashMap<Long, LabWork> collection = new HashMap<Long, LabWork>();
     Gson gson = new Gson();
     JsonReader reader = new JsonReader(new BufferedReader(new FileReader(file_name)));
     JsonParser jsonParser = new JsonParser();
@@ -35,17 +36,13 @@ public class main {
 
     for (JsonElement aLaba : labs){
       LabWork laba = gson.fromJson(aLaba, LabWork.class);
-      collection.put(id_count,laba);
-      collection.get(id_count).setId(id_count);
-      id_count++;
+      collection.put(laba.getId(),laba);
     }
 
     //FileWriter writer = new FileWriter(file_name); //writer.write(json); - запись
-   // writer.write(gson.toJson(labs[0]));
-   // writer.close();
+    // writer.write(gson.toJson(labs[0]));
+    // writer.close();
 
-    System.out.println(collection.get(0));
-    System.out.println(collection.get(1));
 
     while (!command.equals("exit")) {
 
@@ -56,32 +53,71 @@ public class main {
         }
 
         case "info":{
-
+          System.out.println("Тип коллекции: HashMap" + "\n" + "Дата инициализации:" + Date_of_initialization + "\n" + "Колличество элементов коллекции: " + collection.size());
           break; //вывести в стандартный поток вывода информацию о коллекции (тип, дата инициализации, количество элементов и т.д.)
         }
 
         case "show":{
-          System.out.println(collection.get(0));
+          if(collection.isEmpty())
+            System.out.println("Коллекция пуста");
+          else
+            for(Map.Entry<Long, LabWork> entry : collection.entrySet())
+              System.out.println(entry.getValue());
           break; //вывести в стандартный поток вывода все элементы коллекции в строковом представлении
         }
 
         case "insert":{
-          key = input.nextInt();
-          element = input.next();
-
+          if (collection.containsKey(key = input.nextLong())) {
+            System.out.println("Элемент с таким key уже существует");
+            input.nextLine();
+          }
+          else
+          {
+            element = input.nextLine();
+            try {
+              collection.put(key, gson.fromJson(element, LabWork.class));
+              collection.get(key).setId(key);
+            }
+            catch (JsonSyntaxException e)
+            {
+              System.out.println("Неправильно введён элемент");
+              input.nextLine();
+            }
+          }
+          element = "";
           break; //insert key {element}   добавить новый элемент с заданным ключом
         }
 
         case "update":{
-          id = input.nextInt();
-          element = input.next();
-
+          if (!collection.containsKey(key = input.nextLong()))
+          {
+            System.out.println("Элемента с таким key не существует");
+            input.nextLine();
+          }
+          else
+          {
+            element = input.nextLine();
+            try {
+              System.out.println(gson.fromJson(element, LabWork.class));
+              collection.remove(key);
+              collection.put(key, gson.fromJson(element, LabWork.class));
+            }
+            catch (JsonSyntaxException e)
+            {
+              System.out.println("Неправильно введён элемент");
+              input.nextLine();
+            }
+          }
+          element = "";
           break; //update id {element}   обновить значение элемента коллекции, id которого равен заданному
+          // update 31024 {"id" = 31024, "name": null, "coordinates": null, "creationDate": null, "minimalPoint": 0, "difficulty": null, "author": null}
         }
 
         case "remove_key":{
-          key = input.nextInt();
-
+          if (!collection.containsKey(key = input.nextLong()))
+            System.out.println("Элемента с таким key не существует");
+          else
+            collection.remove(key);
           break; //remove_key key   удалить элемент из коллекции по его ключу
         }
 
@@ -101,11 +137,6 @@ public class main {
           break; //execute_script file_name   считать и исполнить скрипт из указанного файла. В скрипте содержатся команды в таком же виде, в котором их вводит пользователь в интерактивном режиме.
         }
 
-        /*case "exit":{
-
-          break; //завершить программу (без сохранения в файл)
-        }*/
-
         case "remove_lower":{
           element = input.next();
 
@@ -113,19 +144,35 @@ public class main {
         }
 
         case "replace_if_greater":{
-          key = input.nextInt();
+          key = input.nextLong();
 
           break; //replace_if_greater key {element}   заменить значение по ключу, если новое значение больше старого
         }
 
         case "remove_lower_key":{
-          key = input.nextInt();
-
+          key = input.nextLong();
+          HashMap<Long, LabWork> acollection = (HashMap<Long, LabWork>) collection.clone();
+          for(Map.Entry<Long, LabWork> entry : acollection.entrySet())
+            if(entry.getKey() < key)
+              collection.remove(entry.getKey());
+          acollection.clear();
           break; //remove_lower_key key   удалить из коллекции все элементы, ключ которых меньше, чем заданный
         }
 
         case "remove_all_by_difficulty":{
           difficulty = input.next();
+          try
+          {
+            HashMap<Long, LabWork> acollection = (HashMap<Long, LabWork>) collection.clone();
+            for(Map.Entry<Long, LabWork> entry : acollection.entrySet())
+              if(entry.getValue().getDifficulty() == Difficulty.valueOf(difficulty))
+                collection.remove(entry.getKey());
+            acollection.clear();
+          }
+          catch (IllegalArgumentException e)
+          {
+            System.out.println("Такой сложности не существует");
+          }
 
           break; //remove_all_by_difficulty difficulty   удалить из коллекции все элементы, значение поля difficulty которого эквивалентно заданному
         }
@@ -138,7 +185,7 @@ public class main {
         case "print_field_ascending_author":{
           author = input.next();
 
-          break; //print_field_ascending_author author   вывести значения поля author в порядке возрастания
+          break; //print_field_ascending_author author - вывести значения поля author в порядке возрастания
         }
 
         case "":{
