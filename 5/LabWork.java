@@ -9,7 +9,6 @@ public class LabWork {
     private Difficulty difficulty; //Поле не может быть null
     private Person author; //Поле может быть null
 
-    @Override
     public String toString() {
         return "LabWork{" +
                 "id=" + id +
