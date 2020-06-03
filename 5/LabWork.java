@@ -1,6 +1,7 @@
 import java.time.LocalDate;
+import java.util.*;
 
-public class LabWork {
+public class LabWork implements Comparable<LabWork> {
     private Long id; //Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
@@ -75,5 +76,77 @@ public class LabWork {
 
     public void setAuthor(Person author) {
         this.author = author;
+    }
+
+    public int compareTo(LabWork labWork) {
+        if (labWork.id == null) {
+            if (id != null)
+                return 1;
+        }
+        else
+            if (id != null)
+                return id.compareTo(labWork.id);
+
+        if (labWork.name == null) {
+            if (name != null)
+                return 1;
+        }
+        else
+            if (name != null && name.compareTo(labWork.name) != 0)
+                return name.compareTo(labWork.name);
+
+        if (labWork.coordinates == null) {
+            if (coordinates != null)
+                return 1;
+        }
+        else
+            if (coordinates != null && coordinates.compareTo(labWork.coordinates) != 0)
+                return coordinates.compareTo(labWork.coordinates);
+
+        if (labWork.creationDate == null){
+            if (creationDate != null)
+                return 1;
+            else
+            {
+                if (creationDate != null && creationDate.compareTo(labWork.creationDate) != 0)
+                {
+                    return creationDate.compareTo(labWork.creationDate);
+                }
+            }
+        }
+        if (labWork.minimalPoint == null){
+            if (minimalPoint != null)
+                return 1;
+            else
+            {
+                if (minimalPoint != null && minimalPoint.compareTo(labWork.minimalPoint) != 0)
+                {
+                    return minimalPoint.compareTo(labWork.minimalPoint);
+                }
+            }
+        }
+        if (labWork.difficulty == null){
+            if (difficulty != null)
+                return 1;
+            else
+            {
+                if (difficulty != null && difficulty.compareTo(labWork.difficulty) != 0)
+                {
+                    return difficulty.compareTo(labWork.difficulty);
+                }
+            }
+        }
+        if (labWork.author == null){
+            if (author != null)
+                return 1;
+            else
+            {
+                if (author != null && author.compareTo(labWork.author) != 0)
+                {
+                    return author.compareTo(labWork.author);
+                }
+            }
+        }
+        return 0;
     }
 }

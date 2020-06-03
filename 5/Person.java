@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class Person {
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Long height; //Поле не может быть null, Значение поля должно быть больше 0
@@ -43,5 +45,41 @@ public class Person {
 
     public void setPassportID(String passportID) {
         this.passportID = passportID;
+    }
+
+    public int compareTo(Person person) {
+        if (person.name == null) {
+            if (name != null)
+                return 1;
+        }
+        else
+            if (name != null && name.compareTo(person.name) != 0)
+                return name.compareTo(person.name);
+
+        if (person.height == null) {
+            if (height != null)
+                return 1;
+        }
+        else
+            if (height != null && height.compareTo(person.height) != 0)
+                return height.compareTo(person.height);
+
+        if (person.weight == null) {
+            if (weight != null)
+                return 1;
+        }
+        else
+            if (weight != null && weight.compareTo(person.weight) != 0)
+                return weight.compareTo(person.weight);
+
+        if (person.passportID == null) {
+            if (passportID != null)
+                return 1;
+        }
+        else
+            if (passportID != null && passportID.compareTo(person.passportID) != 0)
+                return passportID.compareTo(person.passportID);
+
+        return 0;
     }
 }
