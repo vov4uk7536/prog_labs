@@ -1,21 +1,11 @@
-/*ШО НАДО СДЕЛАТЬ!!!!!!!!!!!!!!!!
-1)чтение и добавление нескольких лаб в коллекцию СДЕЛЯЛь
-2)сортировка коллекции
-3)запись в файл через java.io.FileOutputStream, а не через FileWriter СДЕЛЯЛь
-4)задокумментировать все классы в javadoc
-5) Программа должна корректно работать с неправильными данными (ошибки пользовательского ввода, отсутсвие прав доступа к файлу и т.п.).
-//insert 3 {"id"=1, "name"='Egorka', "coordinates":{"x"=1.0, "y"=1}, "creationDate"=null, "minimalPoint"=6.0, "difficulty"=null, "author":{"name"='Egorka', "height"=6, "weight"=5, "passportID"='4'}}
-*/
 import java.util.*;
 import java.util.Map.Entry;
 import java.io.*;
 import com.google.gson.*;
 import com.google.gson.stream.*;
-import javafx.scene.Scene;
 
 import java.time.LocalDate;
 import java.io.FileOutputStream;
-import java.util.stream.Collectors;
 
 public class main {
   static Scanner input = new Scanner(System.in);
@@ -32,12 +22,12 @@ public class main {
   static String str = null;
   static String author_str = null;
   static String file_name_for_script = null;
-
+  static InputStream defInput = System.in;
+  static boolean isFile = false;
   public static void main(String[] args) throws IOException
   {
     file_name = args[0];
   try {
-
     JsonReader file_reader = new JsonReader(new BufferedReader(new FileReader(file_name)));
     JsonParser jsonParser = new JsonParser();
     JsonArray labs = jsonParser.parse(file_reader).getAsJsonArray();
@@ -49,17 +39,14 @@ public class main {
   catch (java.io.FileNotFoundException e) {
     System.out.println("Неверно введён файл");
   }
-
     while (true) {
-      try {
-        command = input.next();
-        command(command);
+      if(isFile && !input.hasNext()){
+        isFile = false;
+        System.setIn(defInput);
+        input = new Scanner(System.in);
       }
-      catch (java.util.NoSuchElementException e)
-      {
-        input.close();
-        Scanner input = new Scanner(System.in);
-      }
+      command = input.next();
+      command(command);
     }
   }
 
@@ -202,6 +189,7 @@ public class main {
       }
 
       case "execute_script": {
+        isFile = true;
         try {
           file_name = input.next();
           if (file_name.equals(file_name_for_script))
@@ -220,7 +208,6 @@ public class main {
                 System.setIn(System.in);
                 line = reader.readLine();
               } while (line != null);
-              System.exit(1);
             } catch (java.io.FileNotFoundException e)
             {
               System.out.println("Неверно введён файл");
