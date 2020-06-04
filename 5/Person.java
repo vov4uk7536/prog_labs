@@ -48,38 +48,33 @@ public class Person {
     }
 
     public int compareTo(Person person) {
-        if (person.name == null) {
-            if (name != null)
-                return 1;
-        }
-        else
-            if (name != null && name.compareTo(person.name) != 0)
+        if (person != null) {
+            if (person.name == null) {
+                if (name != null)
+                    return 1;
+            } else if (name != null && name.compareTo(person.name) != 0)
                 return name.compareTo(person.name);
 
-        if (person.height == null) {
-            if (height != null)
-                return 1;
-        }
-        else
-            if (height != null && height.compareTo(person.height) != 0)
+            if (person.height == null) {
+                if (height != null)
+                    return 1;
+            } else if (height != null && height.compareTo(person.height) != 0)
                 return height.compareTo(person.height);
 
-        if (person.weight == null) {
-            if (weight != null)
-                return 1;
-        }
-        else
-            if (weight != null && weight.compareTo(person.weight) != 0)
+            if (person.weight == null) {
+                if (weight != null)
+                    return 1;
+            } else if (weight != null && weight.compareTo(person.weight) != 0)
                 return weight.compareTo(person.weight);
 
-        if (person.passportID == null) {
-            if (passportID != null)
-                return 1;
+            if (person.passportID == null) {
+                if (passportID != null)
+                    return 1;
+            } else if (passportID != null && passportID.compareTo(person.passportID) != 0)
+                return passportID.compareTo(person.passportID);
         }
         else
-            if (passportID != null && passportID.compareTo(person.passportID) != 0)
-                return passportID.compareTo(person.passportID);
-
+            return 1;
         return 0;
     }
 }

@@ -26,21 +26,22 @@ public class Coordinates implements Comparable<Coordinates>{
     }
 
     public int compareTo(Coordinates coordinates) {
-        if (coordinates.x == null) {
-            if (x != null)
-                return 1;
-        }
-        else
-            if (x != null && x.compareTo(coordinates.x) != 0)
+        if (coordinates != null) {
+            if (coordinates.x == null) {
+                if (x != null)
+                    return 1;
+            } else if (x != null)
                 return x.compareTo(coordinates.x);
 
-        if (coordinates.y == null) {
-            if (y != null)
-                return 1;
+            if (coordinates.y == null) {
+                if (y != null)
+                    return 1;
+            } else if (y != null) {
+                return y.compareTo(coordinates.y);
+            }
         }
         else
-            if (y != null && y.compareTo(coordinates.y) != 0) {
-                return y.compareTo(coordinates.y); }
+            return 1;
 
         return 0;
     }
