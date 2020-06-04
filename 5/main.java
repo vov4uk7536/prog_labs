@@ -1,11 +1,3 @@
-/*ШО НАДО СДЕЛАТЬ!!!!!!!!!!!!!!!!
-1)чтение и добавление нескольких лаб в коллекцию СДЕЛЯЛь
-2)сортировка коллекции
-3)запись в файл через java.io.FileOutputStream, а не через FileWriter СДЕЛЯЛь
-4)задокумментировать все классы в javadoc
-5) Программа должна корректно работать с неправильными данными (ошибки пользовательского ввода, отсутсвие прав доступа к файлу и т.п.).
-//insert 3 {"id"=1, "name"='Egorka', "coordinates":{"x"=1.0, "y"=1}, "creationDate"=null, "minimalPoint"=6.0, "difficulty"=null, "author":{"name"='Egorka', "height"=6, "weight"=5, "passportID"='4'}}
-*/
 import java.util.*;
 import java.util.Map.Entry;
 import java.io.*;
@@ -19,7 +11,7 @@ import java.util.stream.Collectors;
 
 /**
  * Программа для работы с коллекциями
- * @author Володя Дмитриев и Егор Еловский
+ * @author Владимир Дмитриев и Егор Еловский
  * @version 1.0
  */
 
@@ -52,6 +44,10 @@ public class main {
     static String author_str = null;
     /** Задание изначального файла со скриптом */
     static String file_name_for_script = null;
+    /** Задание дефолтного ввода */
+    static InputStream defInput = System.in;
+    /** Состояние чтения файла */
+    static boolean isFile = false;
 
     public static void main(String[] args) throws IOException
     {
@@ -73,15 +69,13 @@ public class main {
         }
         /** Функция, считывающая команды пользователя */
         while (true) {
-            try {
-                command = input.next();
-                command(command);
-            }
-            catch (java.util.NoSuchElementException e)
-            {
-                input.close();
-                Scanner input = new Scanner(System.in);
-            }
+          if(isFile && !input.hasNext()){
+            isFile = false;
+            System.setIn(defInput);
+            input = new Scanner(System.in);
+          }
+          command = input.next();
+          command(command);
         }
     }
     /** Метод обработки команд пользователя
@@ -143,7 +137,7 @@ public class main {
                 element = "";
                 break;
             }
-                /** Обновляет значение элемента коллекции, id которого равен заданному */
+            /** Обновляет значение элемента коллекции, id которого равен заданному */
             case "update":{
                 try {
                     if (!collection.containsKey(key = input.nextLong())) {
@@ -175,10 +169,9 @@ public class main {
                     input.nextLine();
                 }
                 element = "";
-                break; //update id {element}   обновить значение элемента коллекции, id которого равен заданному
-                // update 31024 {"id" = 31024, "name": null, "coordinates": null, "creationDate": null, "minimalPoint": 0, "difficulty": null, "author": null}
+                break;
             }
-                /** Удаляет элемент из коллекции по его ключу */
+            /** Удаляет элемент из коллекции по его ключу */
             case "remove_key":{
                 try {
                     if (!collection.containsKey(key = input.nextLong()))
@@ -197,13 +190,13 @@ public class main {
                 }
                 break; //remove_key key   удалить элемент из коллекции по его ключу
             }
-                /** Очищает коллекцию */
+            /** Очищает коллекцию */
             case "clear":{
                 collection.clear();
                 System.out.println("Коллекция была успешно отчищена");
                 break; //очистить коллекцию
             }
-                /** Сохраняет коллекцию в файл */
+            /** Сохраняет коллекцию в файл */
             case "save":{
                 FileOutputStream writer = new FileOutputStream(file_name);
                 writer.write(start_of_saving.getBytes());
@@ -227,6 +220,7 @@ public class main {
             }
             /** Выполняет скрипт из файла */
             case "execute_script": {
+                isFile = true;
                 try {
                     file_name = input.next();
                     if (file_name.equals(file_name_for_script))
@@ -245,7 +239,6 @@ public class main {
                                 System.setIn(System.in);
                                 line = reader.readLine();
                             } while (line != null);
-                            System.exit(1);
                         } catch (java.io.FileNotFoundException e)
                         {
                             System.out.println("Неверно введён файл");
@@ -405,7 +398,7 @@ public class main {
                 System.exit(0);
                 break;
             }
-
+            /** Обработка неизвестной команды */
             default:{
                 System.out.println("Неизвестная команда");
             }
