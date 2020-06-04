@@ -1,11 +1,16 @@
 import java.util.Objects;
 
 public class Person {
+    /** Имя человека */
     private String name; //Поле не может быть null, Строка не может быть пустой
+    /** Высота человека */
     private Long height; //Поле не может быть null, Значение поля должно быть больше 0
+    /** Вес человека */
     private Integer weight; //Поле не может быть null, Значение поля должно быть больше 0
+    /** Номер паспорта человека */
     private String passportID; //Строка не может быть пустой, Поле не может быть null
 
+    /** Создание элемента для файлa json */
     public String toString() {
         return "Person{" +
                 "name='" + name + '\'' +
@@ -14,39 +19,51 @@ public class Person {
                 ", passportID='" + passportID + '\'' +
                 '}';
     }
-
+    /** Функция получения имени
+     * @return Значение имени
+     * */
     public String getName() {
         return name;
     }
-
-    public Long getHeight() {
+    /** Функция получения высоты
+     * @return Значение высоты
+     * */    public Long getHeight() {
         return height;
     }
-
-    public Integer getWeight() {
+    /** Функция получения веса
+     * @return Значение веса
+     * */    public Integer getWeight() {
         return weight;
     }
-
-    public String getPassportID() {
+    /** Функция получения номера паспорта
+     * @return Значение номера паспорта
+     * */    public String getPassportID() {
         return passportID;
     }
-
+    /** Функция задания имени
+     * @param name Имя
+     * */
     public void setName(String name) {
         this.name = name;
     }
-
-    public void setHeight(long height) {
+    /** Функция задания высоты
+     * @param height Высота
+     * */    public void setHeight(long height) {
         this.height = height;
     }
-
-    public void setWeight(Integer weight) {
+    /** Функция задания веса
+     * @param weight Вес
+     * */    public void setWeight(Integer weight) {
         this.weight = weight;
     }
-
-    public void setPassportID(String passportID) {
+    /** Функция задания номера паспорта
+     * @param passportID Номер паспорта
+     * */    public void setPassportID(String passportID) {
         this.passportID = passportID;
     }
-
+    /** Функция для сравнения элементов Person
+     * @param person объект класса человек
+     * */
     public int compareTo(Person person) {
         if (person != null) {
             if (person.name == null) {
